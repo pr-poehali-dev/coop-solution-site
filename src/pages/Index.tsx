@@ -1,9 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Icon from '@/components/ui/icon';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 const Index = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +19,21 @@ const Index = () => {
     email: '',
     message: ''
   });
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  const clients = [
+    { name: 'ТехноКорп', logo: '🏢', industry: 'IT-сектор' },
+    { name: 'РосБанк', logo: '🏦', industry: 'Финансы' },
+    { name: 'МедЦентр', logo: '🏥', industry: 'Здравоохранение' },
+    { name: 'ЛогистикПро', logo: '🚚', industry: 'Логистика' },
+    { name: 'ЭнергоСеть', logo: '⚡', industry: 'Энергетика' },
+    { name: 'СтройМастер', logo: '🏗️', industry: 'Строительство' }
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,10 +80,16 @@ const Index = () => {
         </nav>
       </header>
 
-      <section className="pt-32 pb-20 px-4 bg-gradient-to-br from-primary/5 via-white to-secondary/5">
-        <div className="container mx-auto max-w-6xl">
+      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-white to-secondary/10"></div>
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        </div>
+        
+        <div className="container mx-auto max-w-6xl relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in">
+            <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
                 Надёжная связь<br />
                 <span className="text-primary">для бизнеса</span>
@@ -70,32 +99,32 @@ const Index = () => {
                 Обеспечиваем стабильную связь и профессиональное обслуживание.
               </p>
               <div className="flex gap-4">
-                <Button size="lg" onClick={() => scrollToSection('solutions')}>
+                <Button size="lg" onClick={() => scrollToSection('solutions')} className="hover:scale-105 transition-transform">
                   Наши решения
                   <Icon name="ArrowRight" size={20} className="ml-2" />
                 </Button>
-                <Button size="lg" variant="outline" onClick={() => scrollToSection('contact')}>
+                <Button size="lg" variant="outline" onClick={() => scrollToSection('contact')} className="hover:scale-105 transition-transform">
                   Консультация
                 </Button>
               </div>
             </div>
             <div className="relative hidden md:block">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-3xl blur-3xl"></div>
-              <div className="relative bg-white rounded-2xl p-8 shadow-xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-secondary/30 rounded-3xl blur-3xl animate-pulse"></div>
+              <div className="relative bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-primary/10">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-4 bg-primary/5 rounded-xl">
+                  <div className="text-center p-4 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl hover:scale-105 transition-transform cursor-default">
                     <div className="text-3xl font-bold text-primary">99.9%</div>
                     <div className="text-sm text-muted-foreground mt-1">Uptime</div>
                   </div>
-                  <div className="text-center p-4 bg-secondary/5 rounded-xl">
+                  <div className="text-center p-4 bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-xl hover:scale-105 transition-transform cursor-default">
                     <div className="text-3xl font-bold text-secondary">24/7</div>
                     <div className="text-sm text-muted-foreground mt-1">Поддержка</div>
                   </div>
-                  <div className="text-center p-4 bg-primary/5 rounded-xl">
+                  <div className="text-center p-4 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl hover:scale-105 transition-transform cursor-default">
                     <div className="text-3xl font-bold text-primary">500+</div>
                     <div className="text-sm text-muted-foreground mt-1">Клиентов</div>
                   </div>
-                  <div className="text-center p-4 bg-secondary/5 rounded-xl">
+                  <div className="text-center p-4 bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-xl hover:scale-105 transition-transform cursor-default">
                     <div className="text-3xl font-bold text-secondary">15+</div>
                     <div className="text-sm text-muted-foreground mt-1">Лет опыта</div>
                   </div>
@@ -116,9 +145,9 @@ const Index = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="p-8 hover:shadow-xl transition-shadow border-2 hover:border-primary/20">
-              <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
-                <Icon name="Network" size={28} className="text-primary" />
+            <Card className="group p-8 hover:shadow-2xl transition-all duration-300 border-2 hover:border-primary/30 hover:-translate-y-2 bg-gradient-to-br from-white to-primary/5">
+              <div className="w-14 h-14 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Icon name="Network" size={28} className="text-white" />
               </div>
               <h3 className="text-xl font-bold mb-3">Корпоративная связь</h3>
               <p className="text-muted-foreground mb-4">
@@ -141,9 +170,9 @@ const Index = () => {
               </ul>
             </Card>
 
-            <Card className="p-8 hover:shadow-xl transition-shadow border-2 hover:border-primary/20">
-              <div className="w-14 h-14 bg-secondary/10 rounded-xl flex items-center justify-center mb-6">
-                <Icon name="Globe" size={28} className="text-secondary" />
+            <Card className="group p-8 hover:shadow-2xl transition-all duration-300 border-2 hover:border-secondary/30 hover:-translate-y-2 bg-gradient-to-br from-white to-secondary/5">
+              <div className="w-14 h-14 bg-gradient-to-br from-secondary to-secondary/70 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Icon name="Globe" size={28} className="text-white" />
               </div>
               <h3 className="text-xl font-bold mb-3">Интернет-решения</h3>
               <p className="text-muted-foreground mb-4">
@@ -166,9 +195,9 @@ const Index = () => {
               </ul>
             </Card>
 
-            <Card className="p-8 hover:shadow-xl transition-shadow border-2 hover:border-primary/20">
-              <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
-                <Icon name="Server" size={28} className="text-primary" />
+            <Card className="group p-8 hover:shadow-2xl transition-all duration-300 border-2 hover:border-primary/30 hover:-translate-y-2 bg-gradient-to-br from-white to-primary/5">
+              <div className="w-14 h-14 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Icon name="Server" size={28} className="text-white" />
               </div>
               <h3 className="text-xl font-bold mb-3">Облачные сервисы</h3>
               <p className="text-muted-foreground mb-4">
@@ -397,6 +426,51 @@ const Index = () => {
               </div>
             </div>
           </Card>
+        </div>
+      </section>
+
+      <section className="py-20 px-4 bg-gradient-to-br from-primary/5 to-secondary/5 overflow-hidden">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Нам доверяют</h2>
+            <p className="text-lg text-muted-foreground">
+              Более 500 компаний по всей России выбрали наши решения
+            </p>
+          </div>
+
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            plugins={[
+              Autoplay({
+                delay: 3000,
+              }),
+            ]}
+            className="w-full"
+          >
+            <CarouselContent>
+              {clients.map((client, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                  <Card className="p-8 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-primary/30 bg-white/80 backdrop-blur-sm">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="text-6xl mb-4">{client.logo}</div>
+                      <h3 className="text-xl font-bold mb-2">{client.name}</h3>
+                      <p className="text-sm text-muted-foreground">{client.industry}</p>
+                      <div className="mt-4 flex gap-1">
+                        {[...Array(5)].map((_, i) => (
+                          <Icon key={i} name="Star" size={16} className="text-yellow-400 fill-yellow-400" />
+                        ))}
+                      </div>
+                    </div>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex" />
+            <CarouselNext className="hidden md:flex" />
+          </Carousel>
         </div>
       </section>
 
