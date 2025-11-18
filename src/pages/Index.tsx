@@ -55,6 +55,12 @@ const Index = () => {
             </div>
             <div className="hidden md:flex gap-8">
               <button 
+                onClick={() => scrollToSection('about')}
+                className="text-foreground hover:text-primary transition-colors font-medium"
+              >
+                О компании
+              </button>
+              <button 
                 onClick={() => scrollToSection('solutions')}
                 className="text-foreground hover:text-primary transition-colors font-medium"
               >
@@ -65,12 +71,6 @@ const Index = () => {
                 className="text-foreground hover:text-primary transition-colors font-medium"
               >
                 Клиент-центр
-              </button>
-              <button 
-                onClick={() => scrollToSection('about')}
-                className="text-foreground hover:text-primary transition-colors font-medium"
-              >
-                О компании
               </button>
             </div>
             <Button onClick={() => scrollToSection('contact')} className="hidden md:block">
